@@ -1,32 +1,24 @@
 import React, { Component } from 'react';
+import { Provider } from 'react-redux'
 import LoginApi from './components/LoginApi.js';
-//import OrderApi from './components/OrderApi.js';
-import { createStore } from 'redux'
+import OrderApi from './components/OrderApi.js';
+import Result from './components/Result.js';
+import store from './store.js';
 import './App.css';
-
-function pops(state = { sessionToken: '', isLoggedIn: false, group: '' }, action) {
-	const { sessionToken, isLoggedIn, group, type } = action;
-	console.log(action)
-	switch (type) {
-		case 'LOGIN':
-			return Object.assign({}, state, { sessionToken, isLoggedIn, group });
-		case 'LOGOUT':
-			return Object.assign({}, state, { sessionToken: '', isLoggedIn: false, group: '' });
-		default:
-			return { sessionToken, isLoggedIn, group };
-	}
-}
 
 class App extends Component {
 	render() {
-		const store = createStore(pops, { sessionToken: '', isLoggedIn: false, group: '', });
-
 		return (
-			<div className="App container-fluid">
-				<div className="row text-center">
-					<div className="col-3"><LoginApi store={store} /></div>
+            <Provider store={store}>
+				<div className="App container-fluid">
+					<div className="row text-center">
+						<div className="col-2"><LoginApi /></div>
+						<div className="col-10"><OrderApi /></div>
+					</div>
+					<br />
+					<Result />
 				</div>
-			</div>
+			</Provider>
 		);
 	}
 }
